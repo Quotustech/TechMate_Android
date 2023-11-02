@@ -120,11 +120,8 @@ function TabNavigator() {
   const navigation = useNavigation();
 
   const handelContent = () => {
-    SetContent('QuestionScreen')
-    if(content){
-
-      handleDrawerContent(content)
-    }
+      handleDrawerContent('QuestionScreen')
+  
     navigation.openDrawer()
   }
 
@@ -262,14 +259,13 @@ function UesrTAb() {
 function TopAppBar({ title }) {
   const navigation = useNavigation();
   const { handleDrawerContent } = useAuth()
-  const [contentScreen,SetContentScreen] = useState(null)
 
 
   const handelContentSubmit = () => {
-    SetContentScreen('ProfileScreen')
-    if(contentScreen){
-      handleDrawerContent(contentScreen)
-    }
+    handleDrawerContent('ProfileScreen')
+    // if(contentScreen){
+    //   handleDrawerContent(contentScreen)
+    // }
     navigation.openDrawer()
   }
 

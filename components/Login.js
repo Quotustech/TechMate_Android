@@ -21,6 +21,7 @@ import {Login} from '../api/auth'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CommonActions } from '@react-navigation/native';
 import Loader from './Loader';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 
@@ -29,7 +30,8 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   const [isModalVisible, setModalVisible] = useState(false);
 
 
@@ -39,6 +41,10 @@ const LoginScreen = ({ navigation }) => {
     passwordError:null,
     error:null
   })
+
+  const handlePasswordVisible = () =>{
+    setIsPasswordVisible(!isPasswordVisible)
+  }
 
   // console.log("error state ",errors.passwordError)
 
@@ -159,7 +165,7 @@ const LoginScreen = ({ navigation }) => {
 
         </View>
         
-
+          <View style={styles.passwordContainer}>
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -169,14 +175,25 @@ const LoginScreen = ({ navigation }) => {
           keyboardType="email-address"
           autoCapitalize="none"
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#aaa"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry
+
+          </View>
+         <View style={styles.passwordContainer}>
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        placeholderTextColor="#aaa"
+        value={password}
+        onChangeText={(text) => setPassword(text)}
+        secureTextEntry={!isPasswordVisible}
+      />
+      <TouchableOpacity onPress={handlePasswordVisible}>
+        <Icon
+          name={isPasswordVisible ? 'eye' : 'eye-slash'}
+          size={20}
+          style={styles.eyeIcon}
         />
+      </TouchableOpacity>
+    </View>
         <TouchableOpacity
           style={styles.loginButton}
           onPress={() => {
@@ -260,19 +277,19 @@ const styles = StyleSheet.create({
     padding: 28,
 
   },
-  input: {
-    marginTop: 10,
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 16,
-    marginBottom: 10,
-    paddingLeft: 10,
-    fontSize: 16,
-    margin: 8,
-    color: 'gray'
+  // input: {
+  //   marginTop: 10,
+  //   height: 40,
+  //   borderColor: 'gray',
+  //   borderWidth: 1,
+  //   borderRadius: 16,
+  //   marginBottom: 10,
+  //   paddingLeft: 10,
+  //   fontSize: 16,
+  //   margin: 8,
+  //   color: 'gray'
 
-  },
+  // },
   loginButton: {
     marginTop:20,
     margin: 8,
@@ -357,6 +374,30 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
     color: 'white',
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 10,
+    marginTop: 10,
+    //   height: 40,
+      marginBottom: 10,
+      paddingLeft: 10,
+      fontSize: 16,
+      margin: 8,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    paddingLeft: 10,
+    fontSize: 16,
+
+    
+  },
+  eyeIcon: {
+    padding: 10,
   },
 
 
