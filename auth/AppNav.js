@@ -129,7 +129,6 @@ function TabNavigator() {
   const handleDismissDrawer = () => {
     SetContent(null); // Reset contentScreen to null
     handleDrawerContent(null)
-
     navigation.closeDrawer(); // Close the drawer
   }
 
@@ -165,13 +164,13 @@ function TabNavigator() {
     >
       <Tab.Screen
         name={drawer}
-        component={QuestionScreen} // Empty component for the drawer icon
+        component={ChatScreen} // Empty component for the drawer icon
         options={{
           tabBarIcon: ({ focused, color, size }) => (
-            <TouchableOpacity
+            <TouchableOpacity style={styles.bar}
               onPress={handelContent} // Open the drawer
             >
-              <Icon name="bars" size={20} color={color} />
+              <Icon  name="bars" size={20} color={color} />
             </TouchableOpacity>
           ),
         }}
@@ -316,6 +315,9 @@ const styles = StyleSheet.create(
       height: 60,
       resizeMode: 'contain'
     },
+    bar:{
+      padding:8
+    }
 
   }
 

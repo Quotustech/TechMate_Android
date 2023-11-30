@@ -8,9 +8,13 @@ import {
   StyleSheet,
   Image,
   StatusBar,
+  KeyboardAvoidingView
 } from 'react-native';
 import { ActivityIndicator } from 'react-native';
 import Modal from 'react-native-modal'; // Import the Modal component
+import { Config } from '../config';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 
 
@@ -20,10 +24,17 @@ const Register = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false)
-  const [registrationSuccess, setRegistrationSuccess] = useState(false); // State to control the success modal
+  const [registrationSuccess, setRegistrationSuccess] = useState(false); 
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
 
-  const url = 'https://attendance-system-ebon.vercel.app/register'
+
+  const url = `${Config.BaseUrl}/register`
+
+  const handlePasswordVisible = () =>{
+    setIsPasswordVisible(!isPasswordVisible)
+  }
+
 
 
   const handleRegister = () => {
@@ -53,7 +64,7 @@ const Register = ({navigation}) => {
 
   };
   const closeModal = () => {
-    setRegistrationSuccess(false); // Close the success modal
+    setRegistrationSuccess(false); 
     navigation.navigate('Login');
 
   };
@@ -62,17 +73,19 @@ const Register = ({navigation}) => {
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
       <View style={styles.header}>
-        <Image source={require('./Techmate-logo.png')} style={styles.logo} />
+        <Image           source={require('./TechMate-f-logo.png')}
+ style={styles.logo} />
       </View>
 
-      <View style={styles.formContainer}>
-        <View style={styles.welcomeText}>
+      <KeyboardAvoidingView behavior="padding" style={styles.formContainer}>
+        {/* <View style={styles.welcomeText}>
           <Text style={styles.welcome}>Register your Account with </Text>
 
-        </View>
+        </View> */}
         <View style={styles.welcomeTechMate}>
-            <Text style={styles.welcomeTo}>Tech Mate</Text>
+            <Text style={styles.welcomeTo}>Register in Tech Mate</Text>
         </View>
+        <View style={styles.passwordContainer}>
 
         <TextInput
           style={styles.input}
@@ -81,6 +94,8 @@ const Register = ({navigation}) => {
           onChangeText={(text) => setFullName(text)}
           value={fullName}
         />
+        </View>
+        <View style={styles.passwordContainer}>
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -90,14 +105,26 @@ const Register = ({navigation}) => {
           keyboardType="email-address"
           autoCapitalize="none"
         />
+        </View>
+        <View style={styles.passwordContainer}>
         <TextInput
           style={styles.input}
           placeholder="Password"
           placeholderTextColor="#aaa"
           onChangeText={(text) => setPassword(text)}
           value={password}
-          secureTextEntry
+          secureTextEntry={!isPasswordVisible}
+          
+          />
+          <TouchableOpacity onPress={handlePasswordVisible}>
+        <Icon
+          name={isPasswordVisible ? 'eye' : 'eye-slash'}
+          size={20}
+          style={styles.eyeIcon}
         />
+      </TouchableOpacity>
+      </View>
+          
         <TouchableOpacity
           style={styles.registerButton}
           onPress={handleRegister}
@@ -132,7 +159,7 @@ const Register = ({navigation}) => {
           </Text>
         </TouchableOpacity>
          )}
-      </View>
+      </KeyboardAvoidingView >
     </View>
   );
 };
@@ -140,7 +167,7 @@ const Register = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0bc3c8',
+    backgroundColor: '#2db9dd',
   },
   header: {
     alignItems: 'center',
@@ -148,35 +175,43 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   logo: {
-    width: 200,
-    height: 100,
-    resizeMode: 'contain',
+    width: 600, // Set the width of your logo
+    height: 300,
+    marginBottom:-170
   },
   formContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#0f110f',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    padding: 28,
+    padding: 20,
   },
-  input: {
-    padding:4,
-    marginTop: 10,
-    height: 40,
+  passwordContainer: {
+    display:'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: 16,
-    marginBottom: 10,
-    paddingLeft: 16,
+    borderRadius: 20,
+    marginTop: 8,
+      height: 42,
+      marginBottom: 10,
+      paddingLeft: 10,
+      fontSize: 16,
+      margin: 8,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    paddingLeft: 10,
     fontSize: 16,
-    margin: 8,
-    color: 'gray'
+    color:'#ffff'
 
   },
   registerButton: {
-    marginTop:10,
+    marginTop:20,
     margin: 8,
-    backgroundColor: '#0bc3c8',
+    backgroundColor: '#2db9dd',
     padding: 15,
     borderRadius: 16,
     alignItems: 'center',
@@ -199,7 +234,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   welcomeText: {
-    marginTop: 40,
+    marginTop: 18,
     flexDirection: 'row',
     justifyContent: 'center',
     marginBottom: 4,
@@ -214,7 +249,7 @@ const styles = StyleSheet.create({
   welcomeTechMate:{
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 16,
+    margin: 12,
   },
   welcomeTo: {
     marginLeft: 4,
@@ -265,6 +300,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  eyeIcon: {
+    flex:1,
+    padding: 10,
+    color:'#ffff'
   },
  
 });

@@ -73,12 +73,25 @@ const LoginScreen = ({ navigation }) => {
   const handleSubmit = () => {
     setLoading(true)
     // startAnimation()
+    console.log("email in login",password)
+    if (email == '' || password == ''){
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        error: 'Please enter a valid email and password',
+      }));
+      setLoading(false)
+      setIsLoading(false);
+      toggleModal();
+
+      return;
+    }
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         emailError: 'Please enter a valid email',
       }));
       toggleModal();
+      setLoading(false)
       setIsLoading(false);
       return;
     }
@@ -129,9 +142,7 @@ const LoginScreen = ({ navigation }) => {
         }));
         toggleModal();
         setLoading(false)
-
-        setIsLoading(false); // Move setIsLoading(false) inside the .catch block
-        // set error to error function
+        setIsLoading(false); 
       });
   };
   
@@ -164,8 +175,9 @@ const LoginScreen = ({ navigation }) => {
           <Text style={styles.welcome}>Login to Tech Mate</Text>
 
         </View>
-        
-          <View style={styles.passwordContainer}>
+        <View style={styles.block}>
+
+        <View style={styles.passwordContainer}>
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -194,6 +206,10 @@ const LoginScreen = ({ navigation }) => {
         />
       </TouchableOpacity>
     </View>
+
+        </View>
+        
+         
         <TouchableOpacity
           style={styles.loginButton}
           onPress={() => {
@@ -255,7 +271,7 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#99cbed',
+    backgroundColor: '#2db9dd',
   },
   header: {
     alignItems: 'center',
@@ -271,7 +287,7 @@ const styles = StyleSheet.create({
   formContainer: {
 
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#0f110f',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 28,
@@ -290,16 +306,22 @@ const styles = StyleSheet.create({
   //   color: 'gray'
 
   // },
+  block:{
+    marginTop:20
+
+  },
   loginButton: {
     marginTop:20,
     margin: 8,
-    backgroundColor: '#99cbed',
+    // backgroundColor: '#99cbed',
     padding: 15,
     borderRadius: 16,
     alignItems: 'center',
+    borderColor: 'white',
+    borderWidth: 1,
   },
   loginButtonText: {
-    color: '#131717',
+    color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -330,14 +352,14 @@ const styles = StyleSheet.create({
     color: '#3498db'
   },
   welcomeText: {
-    marginTop: 40,
+    marginTop: 15,
     flexDirection: 'row',
     justifyContent: 'center',
     marginBottom: 16
   },
   welcome: {
     marginLeft: 4,
-    color: '#131717',
+    color: '#ffff',
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center'
@@ -393,11 +415,13 @@ const styles = StyleSheet.create({
     height: 40,
     paddingLeft: 10,
     fontSize: 16,
+    color:'#ffff'
 
     
   },
   eyeIcon: {
     padding: 10,
+    color:'#ffff'
   },
 
 
